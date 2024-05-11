@@ -6,6 +6,6 @@ public class MyTest {
     public static void main(String[] args) throws IOException {
         ExcelWriter ew = new ExcelWriter();
 
-        ew.createExcel("회원정보");
+        ew.createExcel("members.xlsx", "회원정보");
     }
 }

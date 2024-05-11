@@ -15,7 +15,7 @@ public class ExcelWriter {
     private final int HEADER_ROW = 0;
     private final String[] headerNames = {"이름", "나이", "생년월일", "전화번호", "주소", "결혼여부"};
 
-    public void createExcel(String sheetName) throws IOException {
+    public void createExcel(String fileName, String sheetName) throws IOException {
         List<MemberVO> members = inputMemberInfo();
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -42,20 +42,19 @@ public class ExcelWriter {
                 marriedCell.setCellValue(member.isMarried());
             }
             // 엑셀 파일 저장
-            String filename = "members.xlsx";
-            FileOutputStream outputStream = new FileOutputStream(new File(filename));
+            FileOutputStream outputStream = new FileOutputStream(new File(fileName));
             workbook.write(outputStream);
-            workbook.close();
-            System.out.println("엑셀 파일이 저장되었습니다: " + filename);
+            System.out.println("엑셀 파일이 저장되었습니다: " + fileName);
 
             ExcelBasicReadTest execlRead = new ExcelBasicReadTest();
 
-            execlRead.readExcel(filename);
+            execlRead.readExcel(fileName);
+
         } catch (IOException e) {
             System.out.println("엑셀 파일 저장 중 오류가 발생했습니다.");
             e.printStackTrace();
         } finally {
-
+            workbook.close();
         }
     }
 
@@ -95,7 +94,7 @@ public class ExcelWriter {
         } catch (Exception err) {
             err.printStackTrace();
         } finally {
-            br.readLine();
+            br.close();
         }
 
         return members;
