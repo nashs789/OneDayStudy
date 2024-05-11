@@ -1,4 +1,4 @@
-package org.example.TestLogic;
+package org.example.Logic;
 
 import org.example.Entity.Person;
 

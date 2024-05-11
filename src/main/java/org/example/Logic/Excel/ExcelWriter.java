@@ -1,6 +1,5 @@
-package org.example.TestLogic;
+package org.example.Logic.Excel;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,13 +32,13 @@ public class ExcelWriter {
             for (int i = 0; i < members.size(); i++) {
                 MemberVO member = members.get(i);
                 Row row = sheet.createRow(i + 1);
+
                 row.createCell(0).setCellValue(member.getName());
                 row.createCell(1).setCellValue(member.getAge());
                 row.createCell(2).setCellValue(member.getBirthdate());
                 row.createCell(3).setCellValue(member.getPhone());
                 row.createCell(4).setCellValue(member.getAddress());
-                Cell marriedCell = row.createCell(5);
-                marriedCell.setCellValue(member.isMarried());
+                row.createCell(5).setCellValue(member.isMarried());
             }
             // 엑셀 파일 저장
             FileOutputStream outputStream = new FileOutputStream(new File(fileName));
