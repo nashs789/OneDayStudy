@@ -3,7 +3,7 @@ package org.example.Logic.Excel;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.example.Vo.MemberVO;
+import org.example.Dto.MemberVO;
 
 import java.io.*;
 import java.util.ArrayList;

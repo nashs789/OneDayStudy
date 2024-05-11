@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.example.Vo.MemberVO;
+import org.example.Dto.MemberVO;
 
 import java.io.File;
 import java.io.FileInputStream;
