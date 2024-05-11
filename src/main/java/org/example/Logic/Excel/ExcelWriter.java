@@ -3,7 +3,7 @@ package org.example.Logic.Excel;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.example.Dto.MemberVO;
+import org.example.Dto.MemberDto;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,10 +12,14 @@ import java.util.List;
 public class ExcelWriter {
 
     private final int HEADER_ROW = 0;
-    private final String[] headerNames = {"이름", "나이", "생년월일", "전화번호", "주소", "결혼여부"};
+    private final String[] headerNames;
+
+    public ExcelWriter(String[] headerNames) {
+        this.headerNames = headerNames;
+    }
 
     public void createExcel(String fileName, String sheetName) throws IOException {
-        List<MemberVO> members = inputMemberInfo();
+        List<MemberDto> members = inputMemberInfo();
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         try {
@@ -30,7 +34,7 @@ public class ExcelWriter {
 
             // 데이터 생성
             for (int i = 0; i < members.size(); i++) {
-                MemberVO member = members.get(i);
+                MemberDto member = members.get(i);
                 Row row = sheet.createRow(i + 1);
 
                 row.createCell(0).setCellValue(member.getName());
@@ -57,9 +61,9 @@ public class ExcelWriter {
         }
     }
 
-    public List<MemberVO> inputMemberInfo() throws IOException {
+    public List<MemberDto> inputMemberInfo() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        List<MemberVO> members = new ArrayList<>();
+        List<MemberDto> members = new ArrayList<>();
 
         try {
             while (true) {
@@ -68,7 +72,7 @@ public class ExcelWriter {
                     break;
                 }
 
-                MemberVO mem = new MemberVO();
+                MemberDto mem = new MemberDto();
 
                 System.out.print("이름을 입력하세요:");
                 mem.setName(br.readLine());

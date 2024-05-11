@@ -1,23 +1,24 @@
 package org.example.Crawling;
 
 import org.example.Dto.ProductDto;
+import org.example.Logic.Excel.ExcelWriter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SeleniumTest1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         List<ProductDto> productDtoList = new ArrayList<>();
         ProductDto productDto = new ProductDto();
-
 
         System.setProperty("webdriver.chrome.driver", "./chromedriver");
 
@@ -39,30 +40,29 @@ public class SeleniumTest1 {
         WebElement element = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[4]/div[3]/div[2]/div[4]/div[2]/div[1]"));
 
         element.findElements(By.className("product_item")).forEach(
-                productItem -> {
-                    String href = productItem.findElement(By.className("item_inner")).getAttribute("href");
-                    System.out.println("href: " + href);
-                    // /products/281127 내 ItemId 추출
-                    String itemId = href.substring(href.indexOf("products/") + 9);
-                    System.out.println("itemId: " + itemId);
+            productItem -> {
+                String href = productItem.findElement(By.className("item_inner")).getAttribute("href");
+                String itemId = href.substring(href.indexOf("products/") + 9);
+                WebElement info_box = productItem.findElement(By.className("info_box"));
 
-                    WebElement info_box = productItem.findElement(By.className("info_box"));
+                String itemName = info_box.findElement(By.className("name")).getText();
+                String price = info_box.findElement(By.className("price")).getText();
+                String imageUrl = productItem.findElement(By.xpath("//*[@id=\"wrap\"]/div[4]/div[3]/div[2]/div[4]/div[2]/div[1]/div[1]/a/div[1]/div/picture/source[1]"))
+                        .getAttribute("srcset");
 
-                    String itemName = info_box.findElement(By.className("name")).getText();
-                    System.out.println(itemName);
+                // 안에 있는 html 태그들을 더 추출해보시고 -> productDto 안에 set 해주세요!
+                productDto.setHref(href);
+                productDto.setItemNo(itemId);
+                productDto.setItemName(itemName);
+                productDto.setPrice(price);
+                productDto.setImgUrl(imageUrl);
 
-                    String price = info_box.findElement(By.className("price")).getText();
-                    System.out.println(price.replaceAll("\\D", ""));
-
-                    String imageUrl = productItem.findElement(By.xpath("//*[@id=\"wrap\"]/div[4]/div[3]/div[2]/div[4]/div[2]/div[1]/div[1]/a/div[1]/div/picture/source[1]"))
-                            .getAttribute("srcset");
-                    System.out.println("imageUrl: " + imageUrl);
-
-                    // 안에 있는 html 태그들을 더 추출해보시고 -> productDto 안에 set 해주세요!
-                }
+                productDtoList.add(productDto);
+            }
         );
 
+        ExcelWriter ew = new ExcelWriter(new String[]{"href", "itemNo", "itemName", "price", "imgUrl"});
 
-        System.out.println("productDtoList: " + productDtoList);
+        // ew.createExcel("items.xlsx", "아이템 정보");
     }
 }

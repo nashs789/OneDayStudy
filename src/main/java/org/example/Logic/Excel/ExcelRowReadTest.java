@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.example.Dto.MemberVO;
+import org.example.Dto.MemberDto;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +16,7 @@ public class ExcelRowReadTest {
 
     public static void main(String[] args) {
 
-        List<MemberVO> members = new ArrayList<>();
+        List<MemberDto> members = new ArrayList<>();
 
         try {
             FileInputStream file = new FileInputStream(new File("members.xlsx"));
@@ -28,7 +28,7 @@ public class ExcelRowReadTest {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-                MemberVO member = new MemberVO();
+                MemberDto member = new MemberDto();
 
                 member.setName(row.getCell(0).getStringCellValue());
                 member.setAge((int) row.getCell(1).getNumericCellValue());
